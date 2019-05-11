@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
-namespace HolidayAssistant.Controllers
+namespace HolidayAssistant.Flights.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -14,7 +14,7 @@ namespace HolidayAssistant.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
-            return new string[] { "Hotel Assistant API Test", "Mobile and Internet Computing" };
+            return new string[] { "value1", "value2" };
         }
 
         // GET api/values/5
