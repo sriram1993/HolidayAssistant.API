@@ -7,6 +7,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Ocelot.Middleware;
 
 namespace HolidayAssistant.APIGateway
 {
@@ -19,6 +20,10 @@ namespace HolidayAssistant.APIGateway
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .ConfigureAppConfiguration((host,config) =>
+                {
+                    config.AddJsonFile("ocelot.json");
+                })
                 .UseStartup<Startup>();
     }
 }

@@ -6,40 +6,24 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HolidayAssistant.Flights.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/")]
     [ApiController]
     public class ValuesController : ControllerBase
     {
         // GET api/values
         [HttpGet]
+        [Route("flights")]
         public ActionResult<IEnumerable<string>> Get()
         {
-            return new string[] { "value1", "value2" };
+            return new string[] { "KLM", "Jet Airways" };
         }
 
         // GET api/values/5
-        [HttpGet("{id}")]
+        [HttpGet("flights/{id}")]
         public ActionResult<string> Get(int id)
         {
-            return "value";
+            return "Flight #5";
         }
 
-        // POST api/values
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
     }
 }
