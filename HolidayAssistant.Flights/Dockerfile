@@ -3,7 +3,7 @@
 
 FROM microsoft/dotnet:2.2-aspnetcore-runtime-nanoserver-sac2016 AS base
 WORKDIR /app
-EXPOSE 80
+EXPOSE 8081
 
 FROM microsoft/dotnet:2.2-sdk-nanoserver-sac2016 AS build
 WORKDIR /src
