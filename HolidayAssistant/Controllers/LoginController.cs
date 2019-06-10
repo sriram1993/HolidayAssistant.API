@@ -26,19 +26,15 @@ namespace HolidayAssistant.Login.Controllers
         [Route("login")]
         public async Task<ActionResult<string>> Login([FromBody]LoginIDTO login)
         {
-            LoginStatus status = await _loginRepo.Login(login);
+            LoginODTO status = await _loginRepo.Login(login);
 
-            switch (status)
+           if(status != null)
             {
-                case LoginStatus.Success:
-                    return Ok("Login Successful");
-
-                case LoginStatus.InvalidCredentials:
-                    return Ok("Invalid Email/Password Combination!!");
-
-                default:
-                    return StatusCode(500, "Server Error");
-
+                return Ok(status);
+            }
+            else
+            {
+                return NotFound();
             }
         }
     }

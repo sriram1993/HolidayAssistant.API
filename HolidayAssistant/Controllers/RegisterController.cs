@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HolidayAssistant.Login.Model;
 using HolidayAssistant.Login.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using static HolidayAssistant.Login.Model.Enum;
 
 namespace HolidayAssistant.Login.Controllers
 {
@@ -20,6 +22,7 @@ namespace HolidayAssistant.Login.Controllers
         }
 
         [HttpPost]
+        [Route("Register")]
         public async Task<IActionResult> Register([FromBody]RegisterIDTO registerInput)
         {
             SaveStatus status = await _registerRepo.RegisterUser(registerInput);

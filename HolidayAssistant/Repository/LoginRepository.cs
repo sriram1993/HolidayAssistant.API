@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using HolidayAssistant.Login.Model;
 using HolidayAssistant.Login.Service;
+using HolidayAssistant.Login.Utils;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -35,28 +36,22 @@ namespace HolidayAssistant.Login.Repository
         /// </summary>
         /// <param name="loginInput"></param>
         /// <returns></returns>
-        public async Task<LoginStatus> Login(LoginIDTO loginInput)
+        public async Task<LoginODTO> Login(LoginIDTO loginInput)
         {
             try
             {
                 using (IDbConnection conn = Connection)
                 {
-                    var param = new DynamicParameters();
-                    param.Add("@Email", loginInput.Email, DbType.String, direction: ParameterDirection.Input);
-                    param.Add("@Password", loginInput.Password, DbType.String, direction: ParameterDirection.Input);
-
-
-                    await conn.ExecuteAsync("usp_LoginUser", param, commandType: CommandType.StoredProcedure);
-
-                    var retValue = param.Get<int>("@ReturnValue");
-                    LoginStatus status = (LoginStatus)retValue;
-                    return status;
-
+                    //Replace with stored procedure
+                    string sQuery = "SELECT UserID ,Email,NEWID() AS Token  FROM UserDetails WHERE Email = @Email AND Password=@Password";
+                    conn.Open();
+                    var result = await conn.QueryFirstOrDefaultAsync<LoginODTO>(sQuery, new { Email = loginInput.Email, Password = EncodeDecodeBase64.Base64Encode(loginInput.Password) });
+                    return result;
                 }
             }
             catch (Exception e)
             {
-                return LoginStatus.Failure;
+                return null;
             }
         }
 

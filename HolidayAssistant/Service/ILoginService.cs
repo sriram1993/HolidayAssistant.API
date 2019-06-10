@@ -9,6 +9,6 @@ namespace HolidayAssistant.Login.Service
 {
     public interface ILoginService
     {
-        Task<LoginStatus> Login(LoginIDTO login);
+        Task<LoginODTO> Login(LoginIDTO login);
     }
 }
