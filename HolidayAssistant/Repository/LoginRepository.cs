@@ -43,7 +43,7 @@ namespace HolidayAssistant.Login.Repository
                 using (IDbConnection conn = Connection)
                 {
                     //Replace with stored procedure
-                    string sQuery = "SELECT UserID ,Email,NEWID() AS Token  FROM UserDetails WHERE Email = @Email AND Password=@Password";
+                    string sQuery = "SELECT FirstName,LastName,UserID ,Email,NEWID() AS Token  FROM UserDetails WHERE Email = @Email AND Password=@Password";
                     conn.Open();
                     var result = await conn.QueryFirstOrDefaultAsync<LoginODTO>(sQuery, new { Email = loginInput.Email, Password = EncodeDecodeBase64.Base64Encode(loginInput.Password) });
                     return result;

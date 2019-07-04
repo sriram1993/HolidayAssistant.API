@@ -17,6 +17,8 @@ namespace HolidayAssistant
 {
     public class Startup
     {
+        private string MyPolicy = "myPolicy";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -37,6 +39,12 @@ namespace HolidayAssistant
             {
                 c.SwaggerDoc("v1", new Info { Title = "HolidayAssistant Login API", Version = "v1" });
             });
+
+            services.AddCors(c =>
+            {
+                //c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
+                c.AddPolicy(MyPolicy, builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,6 +59,8 @@ namespace HolidayAssistant
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "HolidayAssistant Login API V1");
             });
+
+            app.UseCors(MyPolicy);
 
             if (env.IsDevelopment())
             {

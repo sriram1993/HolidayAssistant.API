@@ -17,6 +17,8 @@ namespace HolidayAssistant.Flights
 {
     public class Startup
     {
+        private string MyPolicy = "myPolicy";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -35,6 +37,12 @@ namespace HolidayAssistant.Flights
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "HolidayAssistant Flights API", Version = "v1" });
+            });
+
+            services.AddCors(c =>
+            {
+                //c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
+                c.AddPolicy(MyPolicy, builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
             });
         }
 
@@ -56,6 +64,8 @@ namespace HolidayAssistant.Flights
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors(MyPolicy);
 
             app.UseMvc();
         }

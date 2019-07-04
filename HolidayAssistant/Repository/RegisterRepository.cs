@@ -40,7 +40,6 @@ namespace HolidayAssistant.Login.Repository
                     var param = new DynamicParameters();
                     param.Add("@FirstName", objRegister.FirstName, DbType.String, direction: ParameterDirection.Input);
                     param.Add("@LastName", objRegister.LastName, DbType.String, direction: ParameterDirection.Input);
-                    param.Add("@DOB", objRegister.DateOfBirth, DbType.DateTime, direction: ParameterDirection.Input);
                     param.Add("@Email", objRegister.loginDetails.Email, DbType.String, direction: ParameterDirection.Input);
                     param.Add("@Password", EncodeDecodeBase64.Base64Encode(objRegister.loginDetails.Password), DbType.String, direction: ParameterDirection.Input);
                     param.Add("@ReturnValue", DbType.Int32, direction: ParameterDirection.ReturnValue);

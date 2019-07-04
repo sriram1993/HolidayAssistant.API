@@ -23,26 +23,35 @@ namespace HolidayAssistant.Flights.Controllers
 
         [HttpPost]
         [Route("api/bookFlight")]
-        public async Task<SaveStatus> Save([FromBody]FlightsIDTO flights)
+        public async Task<IActionResult> Save([FromBody]FlightsIDTO flights)
         {
-            await Task.Delay(1000);
-            return SaveStatus.Success;
+            SaveStatus status = await _flightRepo.Save(flights);
+            return Ok();
         }
 
         [HttpGet]
-        [Route("api/getUserFlightDetails")]
-        public async Task<FlightsIDTO> GetUserFlightDetails(int customerID)
+        [Route("api/getUserFlightDetails/{customerID}")]
+        public async Task<ActionResult<List<FlightsIDTO>>> GetUserFlightDetails(int customerID)
         {
-            await Task.Delay(1000);
-            return new FlightsIDTO();
+            List<FlightsIDTO> flightDetailsList = await _flightRepo.GetUserFlightDetails(customerID);
+
+            if (flightDetailsList.Count != 0)
+                return Ok(flightDetailsList);
+            else if (flightDetailsList.Count == 0)
+                return NoContent();
+            else
+                return StatusCode(500);
         }
 
         [HttpPut]
-        [Route("api/cancelTicket")]
-        public async Task<SaveStatus> CancelFlight([FromBody]FlightsIDTO flights)
+        [Route("api/cancelTicket/{transactionID}")]
+        public async Task<ActionResult> CancelFlight(int transactionID)
         {
-            await Task.Delay(1000);
-            return SaveStatus.Success;
+            SaveStatus status = await _flightRepo.CancelFlight(transactionID);
+            if (status == SaveStatus.Success)
+                return Ok();
+            else
+                return StatusCode(500);
         }
     }
 }

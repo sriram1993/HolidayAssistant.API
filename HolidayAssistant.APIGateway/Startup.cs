@@ -16,6 +16,8 @@ namespace HolidayAssistant.APIGateway
 {
     public class Startup
     {
+        private string MyPolicy = "myPolicy";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -28,6 +30,12 @@ namespace HolidayAssistant.APIGateway
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddOcelot(Configuration);
+
+            services.AddCors(c =>
+            {
+                //c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
+                c.AddPolicy(MyPolicy, builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -37,6 +45,8 @@ namespace HolidayAssistant.APIGateway
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors(MyPolicy);
 
             app.UseMvc();
             await app.UseOcelot();
